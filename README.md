@@ -1,0 +1,2 @@
+# Termointerface_Prolivnaya
+STM32L431RCT6_MAX31865_PT500_LT-300_RS485
