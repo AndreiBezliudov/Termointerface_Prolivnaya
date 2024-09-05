@@ -1,0 +1,6 @@
+../Core/Src/usart.c:37:6:MX_USART1_UART_Init	8	static
+../Core/Src/usart.c:68:6:MX_USART3_UART_Init	8	static
+../Core/Src/usart.c:98:6:HAL_UART_MspInit	144	static
+../Core/Src/usart.c:179:6:HAL_UART_MspDeInit	16	static
+../Core/Src/usart.c:228:6:RS485_SendIDandTEMP	24	static
+../Core/Src/usart.c:239:6:LT300_TemperatureRequest	8	static
