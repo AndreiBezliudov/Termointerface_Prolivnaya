@@ -1,6 +1,7 @@
-../Core/Src/usart.c:37:6:MX_USART1_UART_Init	2
-../Core/Src/usart.c:68:6:MX_USART3_UART_Init	2
-../Core/Src/usart.c:98:6:HAL_UART_MspInit	5
-../Core/Src/usart.c:179:6:HAL_UART_MspDeInit	3
-../Core/Src/usart.c:228:6:RS485_SendIDandTEMP	1
-../Core/Src/usart.c:239:6:LT300_TemperatureRequest	1
+../Core/Src/usart.c:38:6:MX_USART1_UART_Init	2
+../Core/Src/usart.c:69:6:MX_USART3_UART_Init	2
+../Core/Src/usart.c:99:6:HAL_UART_MspInit	5
+../Core/Src/usart.c:180:6:HAL_UART_MspDeInit	3
+../Core/Src/usart.c:229:6:RS485_SendIDandTEMP	1
+../Core/Src/usart.c:245:6:LT300_TemperatureRequest	1
+../Core/Src/usart.c:255:7:LT300_TemperatureReceive	2

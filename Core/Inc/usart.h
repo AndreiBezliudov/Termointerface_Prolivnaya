@@ -47,6 +47,7 @@ void MX_USART3_UART_Init(void);
 
 void RS485_SendIDandTEMP(int id_device,float temp_common);
 void LT300_TemperatureRequest(void);
+float LT300_TemperatureReceive();
 
 /* USER CODE END Prototypes */
 

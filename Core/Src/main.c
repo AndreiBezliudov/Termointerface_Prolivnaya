@@ -66,6 +66,8 @@ int f_partTemp = 0;
 
 int num_pack = 1;
 
+int timeline = 0;
+
 
 /* USER CODE END PV */
 
@@ -78,6 +80,14 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+  {
+            if(huart == &huart3)
+            {
+            	//temperature = LT300_TemperatureReceive();
+            }
+  }
+
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
         if(htim->Instance == TIM6) //check if the interrupt comes from TIM1
@@ -89,9 +99,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         					  else { f_partTemp = abs( (temperature + abs(i_partTemp) ) * 100 ) ; }
         				 */
             RS485_SendIDandTEMP(num_pack, temperature);
-
-            //проверка входа PC7
-            checkJS1();
+            timeline++;
         }
 }
 
@@ -154,23 +162,28 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+	  //проверка входа PC7
+	  checkJS1();
 
-	  if ( JS1_isSet() ) {
-		  // Работа с датчиком ЛТ-300. Запрос температуры датчика ЛТ-300
-		  LT300_TemperatureRequest();
-		  // принять и распарсить ответ: https://termexlab.ru/#!/ru/product/lt-300-t-termometr-laboratornyij-elektronnyij-250360/?open-tab=overview,specifications,shipping_set,files,additional_information,questions
-		  // значение температуры записать в переменную temperature
-	  } else {
-		  // Работа с ИМС MAX31865. чтение сопротивления и преобразование в температуру датчика PT-500
-		  ADC_CODE = Max31865_readRTD(&pt500);
-		  temperature = Temp(ADC_CODE);
+
+	  if (timeline == 2) {
+		  timeline = 0;
+		  if ( JS1_isSet() ) {
+			  // Работа с датчиком ЛТ-300. Запрос температуры датчика ЛТ-300
+			  LT300_TemperatureRequest();
+			  temperature = LT300_TemperatureReceive();
+		  } else {
+			  // Работа с �?МС MAX31865. чтение сопротивления и преобразование в температуру датчика PT-500
+			  ADC_CODE = Max31865_readRTD(&pt500);
+			  temperature = Temp(ADC_CODE);
+		  }
 	  }
 
 	  // посылка по USART1 значения температуры и другой информации осуществляется в колбэке таймера 6
 
 
 
-	  HAL_Delay(10); // между отправкам 249.6мс
+	  //HAL_Delay(10); // между отправкам 249.6мс
 
   }
   /* USER CODE END 3 */

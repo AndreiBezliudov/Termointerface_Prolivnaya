@@ -14,16 +14,18 @@ _Bool jmpJS1 = false; // false - работа с MAX31865; true - работа �
 
 void checkJS1(){
 	//проверка входа PC7. Если 1, то работа с датчиком MAX31865, если 0, то работа с ЛТ-300
-	if(!HAL_GPIO_ReadPin(Select_Sensor_GPIO_Port, Select_Sensor_Pin) && jmpJS1==false){
+	if(!HAL_GPIO_ReadPin(Select_sensor_GPIO_Port, Select_sensor_Pin) && jmpJS1==false){
 		countJmpJS1set++;
-		if(countJmpJS1set > 3) {
+		if(countJmpJS1set > 5) {
 			countJmpJS1reset = 0;
+			countJmpJS1set = 0;
 			jmpJS1=true;
 		}
-	} else if (HAL_GPIO_ReadPin(Select_Sensor_GPIO_Port, Select_Sensor_Pin) && jmpJS1==true){
+	} else if (HAL_GPIO_ReadPin(Select_sensor_GPIO_Port, Select_sensor_Pin) && jmpJS1==true){
 		countJmpJS1reset++;
-		if(countJmpJS1reset > 3) {
+		if(countJmpJS1reset > 5) {
 			countJmpJS1set = 0;
+			countJmpJS1reset = 0;
 			jmpJS1=false;
 		}
 	}

@@ -24,6 +24,7 @@
 
 #include "string.h"
 #include "stdio.h"
+#include "stdlib.h"
 
 char trans_str[64] = {0,};
 
@@ -234,10 +235,51 @@ void RS485_SendIDandTEMP(int id_device, float temp_common){
 
 // CODE USART3 Begin
 
+//uint8_t rx_buffer[16] = {0,};
+//char* temperature_str;
+char temperature_str[10] = {0,}; // объявление и обнуление символьного массива
+float temp = 0;
+//char received_data[16] = {0,};
 
 
 void LT300_TemperatureRequest(){
-	HAL_UART_Transmit_IT(&huart3, (uint8_t*)"d\n", 2);
+
+	char requestTemp_LT300[] = "d\n";
+	//int UART3_TIMEOUT_SEND = 10; // таймаут на отправку запроса температуры к ЛТ-300
+
+	HAL_UART_Transmit_IT(&huart3, (uint8_t*)requestTemp_LT300, 3);
+	//HAL_UART_Transmit(&huart3, (uint8_t*)requestTemp_LT300, strlen(requestTemp_LT300), UART3_TIMEOUT_SEND);
+}
+
+
+float LT300_TemperatureReceive(){
+
+	uint8_t rx_buffer[16] = {0,};
+	HAL_UART_Receive(&huart3, rx_buffer, sizeof(rx_buffer)-1, 100);
+	//HAL_UART_Transmit(&huart1, (uint8_t*)rx_buffer, sizeof(rx_buffer), 100);
+
+
+	// Преобразование полученных данных в строку
+	char received_data[16] = {0,};
+	snprintf(received_data, sizeof(received_data), "%s", (char*)rx_buffer);
+	//memset(rx_buffer, 0, sizeof(rx_buffer));
+
+	// Поиск пробела в строке и извлечение значения температуры
+	char *temp_ptr = 0;
+	temp_ptr = strchr(received_data, ' ');
+	if (temp_ptr != NULL) {
+	    temp_ptr += 1;  // Сдвиг указателя за пробел
+	    snprintf(temperature_str, 10, "%s", temp_ptr);
+	} else {
+		// Если не удалось найти пробел, записать ошибку
+		//snprintf(temperature_str, 10, "Error");
+		snprintf(temperature_str, 10, "0.00");
+	}
+
+	temp = atof(temperature_str);
+	memset(temperature_str, 0, sizeof(temperature_str));
+	return temp;
+
 }
 
 // CODE USART1 End

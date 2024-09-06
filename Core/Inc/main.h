@@ -57,8 +57,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Select_Sensor_Pin GPIO_PIN_11
-#define Select_Sensor_GPIO_Port GPIOB
+#define Select_sensor_Pin GPIO_PIN_7
+#define Select_sensor_GPIO_Port GPIOC
 #define CS_MAX31865_Pin GPIO_PIN_9
 #define CS_MAX31865_GPIO_Port GPIOA
 #define RDY_MAX31865_Pin GPIO_PIN_11
